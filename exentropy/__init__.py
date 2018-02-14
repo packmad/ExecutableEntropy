@@ -228,23 +228,33 @@ class ElfInfo(object):
             elf = self.elffile
             self.display_dynamic_tags()
 
-            sections = {}
+            sections = []
             for section in elf.iter_sections():
                 if section.name != '':
-                    print('{name} {size} {flags} {ent}'.format(
+                    entropy = self.compute_entropy(section.data())
+                    self._emitline('{name} {size} {flags} {ent}'.format(
                         name=section.name,
                         size=section.header['sh_size'],
                         flags=section.header['sh_flags'],
-                        ent=self.compute_entropy(section.data())
+                        ent=entropy
                     ))
-                    sections[str(section.name)]["size"] = section.header['sh_size']
+                    s = {"name": section.name, "size": int(section.header['sh_size']),
+                         "flags": int(section.header['sh_flags']), "entro": float(entropy)}
+                    sections.append(s)
+            self.data["sections"] = sections
 
+            segments = []
             for segment in elf.iter_segments():
-                print('{name} {size} {flags} {ent}'.format(
+                entropy = self.compute_entropy(segment.data())
+                self._emitline('{name} {size} {flags} {ent}'.format(
                     name=segment.header["p_type"][3:],  # remove "PT_"
                     size=segment.header["p_memsz"],
                     flags=segment.header["p_flags"],
-                    ent=self.compute_entropy(segment.data())))
+                    ent=entropy))
+                s = {"name": segment.header["p_type"], "size": int(segment.header["p_memsz"]),
+                         "flags": int(segment.header['p_flags']), "entro": float(entropy)}
+                segments.append(s)
+            self.data["segments"] = segments
 
 if __name__ == "__main__":
     filepath = "/home/simo/Dropbox/AndroidCTF/boeing/libnative-lib.so"
