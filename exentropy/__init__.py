@@ -159,9 +159,9 @@ class ElfInfo(object):
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
-        filepath = sys.argv[1]
-        if os.path.isfile(filepath):
-            with open(filepath, 'rb') as file:
+        file_path = sys.argv[1]
+        if os.path.isfile(file_path):
+            with open(file_path, 'rb') as file:
                 t = ElfInfo(file)
                 t.get_infos()
                 print(t)
