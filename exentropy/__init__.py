@@ -157,6 +157,9 @@ class ElfInfo(object):
         self.collect_sharedlib()
         self.display_symbol_tables()
 
+    def get_data(self):
+        return self.data
+
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:

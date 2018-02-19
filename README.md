@@ -1,0 +1,3 @@
+- `pip2 install -r requirements.txt`
+- `python2 main.py`
+- `curl -X POST -F file=@<file-name-here> http://localhost:5000/`
