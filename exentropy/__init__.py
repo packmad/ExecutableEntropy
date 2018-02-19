@@ -15,6 +15,7 @@ class ElfInfo(object):
         self.elffile = ELFFile(file)
         self._versioninfo = None
         self.data = {}
+        self.data["arch"] = self.elffile.elfclass
         self._verbose = verbose
 
     def __str__(self):
