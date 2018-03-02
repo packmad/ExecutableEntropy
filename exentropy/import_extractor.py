@@ -19,11 +19,11 @@ for dirpath, dir_names, file_names in os.walk(args.folder):
         file_path = os.path.join(dirpath, f)
         try:
             elf = ElfInfo(open(file_path,'rb'))
-            elf.get_infos()
+            elf.display_symbol_tables()
             for i in elf.data['imports']:
                 result_set.add(i)
         except Exception as e:
-            print('Problem with file: ',file_path,'\nError is: ',e) 
+            print('Problem with file: ',file_path,'\nError is: ',e)
 
 f = open(OUT_PATH, 'w')
 for i in result_set:
